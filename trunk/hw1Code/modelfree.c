@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "darts.h"
-#include "solution.h"
 
 location start_game() {
   location result;
@@ -19,46 +18,55 @@ location start_game() {
 
 location get_target(int score, location prev_loc)
 {
-    int a, j, r;
-    double alpha;
+  int a, j, r, best, abest;
+    double Qmax, next_Qmax;
     location aim, result;
     div_t ans;
 
-    prev_Qmax = Qmax;
-    for (a = 0; a < NUM_WEDGES*NUM_REGIONS; a++) {
+    printf("wedges*regions = %d\n",NUM_WEDGES*NUM_REGIONS);
+
+    abest = (rand() % (NUM_WEDGES*NUM_REGIONS));
+    best = 0;
+    Qmax = Q[score][0];
+    for (a = 1; a < NUM_WEDGES*NUM_REGIONS; a++) {
         if (Q[score][a] > Qmax) {
-            abest = a + 1;
+            abest = a;
             Qmax = Q[score][a];
+	    best = 1;
         }
     }
-    if (Qmax == prev_Qmax) {
-        abest = (rand() % (NUM_WEDGES*NUM_REGIONS)) + 1;
-    }
-    ans = div(abest,NUM_REGIONS);
+    ans = div(abest+1,NUM_REGIONS);    /* a+1 since matrix indeces are all 
+					  positive */
     if (ans.rem == 0) {
         aim.ring = (ring)NUM_REGIONS;
     } else {
         aim.ring = (ring)ans.rem;
     }
     aim.wedge = ans.quot + 1;
+    
     result = throw(aim);
     j = score - location_to_score(result);
     if (j < 0) {
       j = score;
     }
     r = (j == 0) ? 1 : 0;
-    for (a = 0; a < NUM_WEDGES*NUM_REGIONS; a++) {
+    next_Qmax = Q[j][0];
+    for (a = 1; a < NUM_WEDGES*NUM_REGIONS; a++) {
         if (Q[j][a] > next_Qmax) {
             next_Qmax = Q[j][a];
         }
     }
-    alpha = ALPHA;
+    
     Q[score][abest] = (1 - alpha) * Q[score][abest] + alpha * (r + next_Qmax);
+    
     score = j;
 
     return result;
 }
 
 void end_game(int turns) {
-
+  alpha -= 0.001;
+  if (alpha < 0) {
+    alpha = 0;
+  }
 }
