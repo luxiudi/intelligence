@@ -52,10 +52,10 @@ int play(void) {
   do {
     /* printf("Current score: %d\n", score); */
 
-    turns++;
+    
     /* result = throw(target); */
     raw_score = location_to_score(result);
-
+		
     /*
     printf("Target: wedge %d, ring %d\n", target.wedge, target.ring);
     printf("Result: wedge %d, ring %d\n", result.wedge, result.ring);
@@ -67,6 +67,7 @@ int play(void) {
     }
     if (score==0) break;
     result = get_target(score,result);
+		turns++;	
   } while (1);
 
   /*  printf("WOOHOO!  It only took %d turns\n", turns); */
@@ -108,8 +109,12 @@ int main(int argc, char **argv) {
 
   /* Set the random number generator to a particular seed to establish a particular
      throwing model, and then initialize the throwing model. */
-  srand(1);
+  srand(time(0));
   init_thrower();
+	startIteration();
+
+
+	
 
   use_simple_thrower();
 
