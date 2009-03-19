@@ -1,4 +1,5 @@
 #include "darts.h"
+#include <stdio.h>
 
 /* Components of a darts player. */
 
@@ -10,26 +11,29 @@
  * player as a baseline for comparison.
  */
 
+//keep track of how many throws we've done
+int count = 0;
+
 location start_game() {
   location result;
   
   result.wedge = NUM_WEDGES;
   result.ring = MIDDLE_RING;
-
+	//printf("starting game\n");
+	
   return result;
 }
 
 location get_target(int score, location prev_loc) {
   location result;
 
-  if (score>NUM_WEDGES) {
-    result.wedge = NUM_WEDGES;
-    result.ring = MIDDLE_RING;
-  } else {
-    result.wedge = score;
-    result.ring = SECOND_PATCH;
-  }
+	//printf("calling get target %d th time with score equal to %d\n", count, score);
+	//printf("going to throw: ring %d, wedge %d\n", best_policy[score].ring, best_policy[score].wedge);
+	count++;
+	result = throw(best_policy[score]);
+	//printf("the result hit value %d \n", location_to_score(result));
 
+	//printf("total number of throws %d\n", count);	
   return result;
 }
 

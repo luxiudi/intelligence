@@ -74,6 +74,13 @@ typedef struct {
 
 
 
+
+
+/* iterate the policy and fill in the best_policy array */
+
+void startIteration();
+
+
 /* State */
 double current_state;
 double next_state;
@@ -143,6 +150,40 @@ int play(void);
 int location_to_score(location loc);
 
 
+/************************************************
+*
+*		HW1 Question 2	
+*   Functions and Data used in value iteration
+*
+*
+*************************************************/
+
+
+/* The horizon for value iteration. ie how far ahead should we look? */
+#define HORIZON 100
+
+
+
+/* best action at each level of k */
+location best_action[HORIZON][START_SCORE+1];
+
+/* v/q values for each state at each k level*/
+double v[HORIZON][START_SCORE+1];
+
+/* best policy for each state */
+location best_policy[START_SCORE+1];
+
 
 /*calculate the transition probabilities from different states*/
-double transition();
+double transition(location a, int current_state, int result_state);
+
+/* initialize all the possible actions that this game can have */
+void init_actions();
+
+/* start the value iteration and fills in v[][] and best_poliyc[]*/
+void startIteration();
+
+/* sum of the expected reward for a given action and current state, with respect to the kth level */
+double sum_expected_reward(location a, int k, int current_score);
+
+
