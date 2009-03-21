@@ -1,13 +1,13 @@
 
 public class Weight {
 	
-	double w;
+	double weight;
 	
 	public Weight (double d ){
-		w = d;
+		weight = d;
 	}
 
 	public Weight(){
-		w = 0.0;
+		weight = 0.0;
 	}
 }
