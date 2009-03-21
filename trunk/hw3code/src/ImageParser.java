@@ -31,7 +31,7 @@ public class ImageParser {
 		FileReader fr = new FileReader(f);
 		BufferedReader br = new BufferedReader(fr);
 
-		for (int y = 0; y < 10000; y++) {
+		for (int y = 0; y < 100; y++) {
 			
 			
 			String s = br.readLine();
@@ -39,6 +39,8 @@ public class ImageParser {
 			System.out.println(s + " " + y);
 			images[y] = new ImageData();
 			images[y].label = Integer.parseInt(s);
+			
+			
 			
 			for (int row = 0; row < 14; row++) {
 				s = br.readLine();
@@ -51,6 +53,7 @@ public class ImageParser {
 					
 					String value = st.nextToken();
 					images[y].pixelValues[row][column] = Integer.parseInt(value);
+					
 					//System.out.println(st.nextToken());
 					column++;
 				}
@@ -64,8 +67,10 @@ public class ImageParser {
 			
 			
 			int[][] array = images[x].pixelValues;
+			
 			for(int a=0; a<14; a++){
 				for(int b = 0; b<14; b++){
+					
 					int value = array[a][b];
 					String space = "";
 					if(value<10)
@@ -76,11 +81,11 @@ public class ImageParser {
 						space = space + " ";
 					}
 						
-					System.out.print(array[a][b]+ space);
+					//System.out.print(array[a][b]+ space);
 				}
-				System.out.println();
+				//System.out.println();
 			}
-			System.out.println();
+			//System.out.println();
 		}
 		
 		

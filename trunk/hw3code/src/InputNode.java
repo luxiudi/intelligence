@@ -1,10 +1,10 @@
 
 public class InputNode extends Node{
 	
-	public InputNode(double a){
+	public InputNode(){
 		
 		super();
-		this.activation = a;
+
 		
 	}
 
