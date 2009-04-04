@@ -10,6 +10,7 @@ public class Node {
 	public double activation = 0;
 	public double err = 0;
 	public double delta = 0;
+	public String name = "";
 	
 	
 	public Node(){
@@ -36,9 +37,11 @@ public class Node {
 	
 	private double sigmod(double x){
 		
-		double temp = Math.exp(-x);
+		double temp = Math.exp(-1*x);
+		double t = 1.0/(1.0 + temp);
+		//System.out.println(t + " SIGMOD");
 		
-		return 1.0/(1.0 + temp);
+		return t;
 	}
 	
 	
@@ -64,9 +67,14 @@ public class Node {
 		this.activation = sigmod(inputLevels);
 	}
 	
+	
 	public void UpdateWeights(){
 		
+		//System.out.println("UPDATING WEIGHTS");
+		//System.out.println("PARENTS: " + parents.size() + " " + this.name);
+		
 		updateError();
+		//System.out.println(this.delta);
 		
 		Iterator<Entry<Node, Weight>> i = parents.entrySet().iterator();
 		double temp = 0;
@@ -74,8 +82,10 @@ public class Node {
 			
 			Entry<Node, Weight> ent  = i.next();
 			Weight w = ent.getValue();
+			//System.out.println("WEIGHT BEFORE: " + w.weight);
 			
-			w.weight = w.weight + NeuralNetwork.alpha*delta;
+			w.weight = w.weight + NeuralNetwork.alpha*delta*ent.getKey().activation;
+			//System.out.println("WEIGHT AFTER: " + w.weight);
 		}
 		this.err = temp;
 	}
@@ -89,12 +99,14 @@ public class Node {
 			Entry<Node, Weight> ent  = i.next();
 			Node n = ent.getKey();
 			Weight w = ent.getValue();
-			
+//			if(this.name.equals("hidden") && n.name.equals("output"))
+//				System.out.println(n.delta);
+//			
 			temp += n.delta*w.weight;
 		}
 		
 		this.err = temp;
-		this.delta = temp*activation*(1-activation);
+		this.delta = err*activation*(1-activation);
 		
 	}
 }

@@ -2,15 +2,15 @@
 public class ImageData {
 	
 	
-	public int[][] pixelValues;
-	public int[] pixelValueArrray;
+	public double[][] pixelValues;
+	public double[] pixelValueArrray;
 	public int label;
 	
 	
 	public ImageData(){
 		
-		pixelValues = new int[14][14];
-		pixelValueArrray = new int[14*14];
+		pixelValues = new double[14][14];
+		pixelValueArrray = new double[14*14];
 		label = -1;
 		
 	}

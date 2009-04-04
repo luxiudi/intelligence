@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.StringTokenizer;
 
 public class ImageParser {
+	
+	private static int numImages = 10000;
 
 	/**
 	 * @param args
@@ -12,7 +14,7 @@ public class ImageParser {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			ReadFile();
+			ReadFile(10000,"training-10k.txt");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -22,26 +24,28 @@ public class ImageParser {
 
 	}
 
-	public static ImageData[] ReadFile() throws Exception {
+	public static ImageData[] ReadFile(int size, String fileName) throws Exception {
 
-		File f = new File("training-10k.txt");
-		ImageData[] images = new ImageData[10000];
+		//File f = new File("training-10k.txt");
+		File f = new File(fileName);
+		
+		ImageData[] images = new ImageData[size];
 		System.out.println(f.length());
 
 		FileReader fr = new FileReader(f);
 		BufferedReader br = new BufferedReader(fr);
 
-		for (int y = 0; y < 100; y++) {
+		for (int y = 0; y < size; y++) {
 			
 			
 			String s = br.readLine();
 			s = s.substring(1, 2);
-			System.out.println(s + " " + y);
+			//System.out.println(s + " " + y);
 			images[y] = new ImageData();
 			images[y].label = Integer.parseInt(s);
 			
 			
-			
+			int count = 0;
 			for (int row = 0; row < 14; row++) {
 				s = br.readLine();
 
@@ -52,7 +56,7 @@ public class ImageParser {
 				while (st.hasMoreTokens()) {
 					
 					String value = st.nextToken();
-					images[y].pixelValues[row][column] = Integer.parseInt(value);
+					images[y].pixelValues[row][column] = Double.parseDouble(value)/255.0;
 					
 					//System.out.println(st.nextToken());
 					column++;
@@ -62,31 +66,31 @@ public class ImageParser {
 
 		}
 
-		
-		for(int x = 0; x<100; x++){
-			
-			
-			int[][] array = images[x].pixelValues;
-			
-			for(int a=0; a<14; a++){
-				for(int b = 0; b<14; b++){
-					
-					int value = array[a][b];
-					String space = "";
-					if(value<10)
-						space = space + "   ";
-					else if( value<100){
-						space = space + "  ";
-					}else{
-						space = space + " ";
-					}
-						
-					//System.out.print(array[a][b]+ space);
-				}
-				//System.out.println();
-			}
-			//System.out.println();
-		}
+//		
+//		for(int x = 0; x<numImages; x++){
+//			
+//			
+//			int[][] array = images[x].pixelValues;
+//			
+//			for(int a=0; a<14; a++){
+//				for(int b = 0; b<14; b++){
+//					
+//					int value = array[a][b];
+//					String space = "";
+//					if(value<10)
+//						space = space + "   ";
+//					else if( value<100){
+//						space = space + "  ";
+//					}else{
+//						space = space + " ";
+//					}
+//						
+//					System.out.print(array[a][b]+ space);
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
+//		}
 		
 		
 
